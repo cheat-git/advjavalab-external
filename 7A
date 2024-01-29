@@ -1,0 +1,62 @@
+7A)
+import java.util.*;
+import java.sql.*;
+public class EmployeSal50 {
+	public static void main(String[]args)
+	{
+		String username = "root";
+		String pass = "";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/FinalExam";
+		Scanner in = new Scanner(System.in);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(jdbcUrl,username,pass);
+			
+			String sqlQuery = "INSERT INTO 7A(id,name,age,salary) values (?,?,?,?);";
+			PreparedStatement ps = conn.prepareStatement(sqlQuery);
+			String id = in.nextLine();
+			String name = in.nextLine();
+			int age = in.nextInt();
+			Double sal = in.nextDouble();
+			
+			ps.setString(1,id);
+			ps.setString(2, name);
+			ps.setInt(3,age);
+			ps.setDouble(4, sal);
+			
+			
+			if(ps.executeUpdate() > 0)
+			{
+				System.out.println("Successfully executed and inserted the element");
+			}
+			else
+			{
+				System.out.println("Not able to add the new record");
+			}
+			
+			
+			
+			// Insertion done
+			String sqlQuery1 = "SELECT * from 7A WHERE salary >= 50000";
+			PreparedStatement ps1 = conn.prepareStatement(sqlQuery1);
+			ResultSet rs = ps1.executeQuery();
+			
+			while(rs.next())
+			{
+				String id1 = rs.getString("id");
+				String name1 = rs.getString("name");
+				int age1 = rs.getInt("age");
+				Double sal1 = rs.getDouble("salary");
+				
+				System.out.println("Name:"+name1+"ID:"+id1+"Age:"+age1+"Salary:"+sal1+"\n");
+			}
+			rs.close();
+			conn.close();	
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,50 @@
+9B)
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Grade Checker</title>
+</head>
+<body>
+<h2>Enter your marks:</h2>
+<form action="" method="post">
+Enter Subject 1 marks: <input type="text" id="s1" name="s1" required><br>
+Enter Subject 2 marks: <input type="text" id="s2" name="s2" required><br>
+Enter Subject 3 marks: <input type="text" id="s3" name="s3" required><br>
+Enter Subject 4 marks: <input type="text" id="s4" name="s4" required><br>
+Enter Java marks:<input type="text" id="s5" name="s5" required><br>
+<input type="submit" value="Check"><br>
+</form>
+<%!
+public String gradecheck(double marks){
+	String g;
+	if(marks>90 && marks<=100) g="S";
+	else if(marks>=80) g="A";
+	else if(marks>=70) g="B";
+	else if(marks>=60) g="C";
+	else if(marks>=50) g="D";
+	else if(marks>=0) g="FAIL";
+	else g="Wrong input";
+	return g;
+}
+%>
+<%
+if(request.getMethod().equalsIgnoreCase("post")){
+	int s1=Integer.parseInt(request.getParameter("s1"));
+	int s2=Integer.parseInt(request.getParameter("s2"));
+	int s3=Integer.parseInt(request.getParameter("s3"));
+	int s4=Integer.parseInt(request.getParameter("s4"));
+	int java=Integer.parseInt(request.getParameter("s5"));
+	double avg=(s1+s2+s3+s4+java)/5;
+	String grade=gradecheck(avg);
+	String javagrade=gradecheck((double)java);
+	out.println("<br><br>");
+	out.println("<h3>Grades:</h3>");
+	out.println("<p>Grade of all subjects: "+grade+"</p>");
+	out.println("<p>Grade of Java subject: "+javagrade+"</p>");
+}
+%>
+</body>
+</html>

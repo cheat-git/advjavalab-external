@@ -1,0 +1,86 @@
+6B)
+
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/CGPA")
+public class CGPA extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+ 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		
+		try {
+			String usn = request.getParameter("usn");
+			String name = request.getParameter("name");
+			double sgpa1 = Double.parseDouble(request.getParameter("sgpa1"));
+			double sgpa2 = Double.parseDouble(request.getParameter("sgpa2"));
+			double sgpa3 = Double.parseDouble(request.getParameter("sgpa3"));
+			double sgpa4 = Double.parseDouble(request.getParameter("sgpa4"));
+			
+			
+			double cgpa = (sgpa1 + sgpa2 + sgpa3 + sgpa4) / 4;
+			
+			out.println("<html><head><title>THE CGPA CALC</title></head><body>");
+			out.println("<p>USN:"+usn+"</p><br>");
+			out.println("<p>Name:"+name+"</p><br>");
+			out.println("<p>CGPA:"+cgpa+"</p><br>");
+			out.println("</body></html>");
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CGPA CALC</title>
+</head>
+<body>
+
+	<h2>GPA CALCULATOR</h2>
+	
+	<form action = "CGPA" method = "POST">
+	<label for="usn">USN:</label>
+	<input type = "text" name = "usn" id = "usn" required><br>
+	
+	
+	<label for="name">Name:</label>
+	<input type = "text" name = "name" id = "name" required><br>
+	
+	<label for="sgpa1">S1:</label>
+	<input type = "text" name = "sgpa1" id = "sgpa1" required><br>
+	
+	<label for="sgpa2">S2:</label>
+	<input type = "text" name = "sgpa2" id = "sgpa2" required><br>
+	
+	<label for="sgpa3">S3:</label>
+	<input type = "text" name = "sgpa3" id = "sgpa3" required><br>
+	
+	<label for="sgpa4">S4:</label>
+	<input type = "text" name = "sgpa4" id = "sgpa4" required><br>
+	
+	<input type = "submit" value = "Check Now">
+	
+	</form>
+
+
+</body>
+</html>

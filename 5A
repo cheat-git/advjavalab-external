@@ -1,0 +1,47 @@
+5A)
+import java.sql.*;
+import java.util.*;
+public class Bank {
+	public static void main(String[] args) {
+		String url="jdbc:mysql://localhost:3306/qn5";
+		String user="root";
+		String pass="";
+		Scanner in=new Scanner(System.in);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn=DriverManager.getConnection(url,user,pass);
+			String s1="insert into bank(no,name,type,balance) values (?,?,?,?)";
+			PreparedStatement ps1=conn.prepareStatement(s1);
+			System.out.println("\nEnter details:");
+			String no=in.nextLine();
+			String name=in.nextLine();
+			String type=in.nextLine();
+			int balance=in.nextInt();
+			ps1.setString(1,no);
+			ps1.setString(2,name);
+			ps1.setString(3, type);
+			ps1.setInt(4, balance);
+			if (ps1.executeUpdate()>0) System.out.println("\nInserted successfulyy!");
+			else System.out.println("\nNot inserted");
+			ps1.close();
+			
+			String s2="select * from bank";
+			PreparedStatement ps2=conn.prepareStatement(s2);
+			ResultSet rs2=ps2.executeQuery();
+			System.out.println("\nDisplay Details");
+			while (rs2.next()) {
+				String no1=rs2.getString("no");
+				String name1=rs2.getString("name");
+				String type1=rs2.getString("type");
+				String balance1=rs2.getString("balance");
+				System.out.println("\nNumber: "+no1+"\nName: "+name1+"\nType: "+type1+"\nBalance: "+balance1);
+			}
+			ps2.close();
+			rs2.close();
+			in.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

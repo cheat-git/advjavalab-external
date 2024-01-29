@@ -1,0 +1,38 @@
+import java.sql.*;
+public class Student {
+	public static void main(String[] args) {
+		String url="jdbc:mysql://localhost:3306/qn9";
+		String user="root";
+		String pass="";
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn=DriverManager.getConnection(url,user,pass);
+			String s1="select rollno,name from stud where yearadmin=2023";
+			PreparedStatement ps1=conn.prepareStatement(s1);
+			ResultSet rs1=ps1.executeQuery();
+			System.out.println("\nStudent enrolled in 2023");
+			while (rs1.next()) {
+				String rollno=rs1.getString("rollno");
+				String name=rs1.getString("name");
+				System.out.println("\nRoll Number: "+rollno+"\nName: "+name);
+			}
+			ps1.close();
+			rs1.close();
+			
+			String s2="select rollno,name from stud where program='BE'";
+			PreparedStatement ps2=conn.prepareStatement(s2);
+			ResultSet rs2=ps2.executeQuery();
+			System.out.println("\nStudent enrolled in BE program");
+			while (rs2.next()) {
+				String rollno=rs2.getString("rollno");
+				String name=rs2.getString("name");
+				System.out.println("\nRoll Number: "+rollno+"\nName: "+name);
+			}
+			ps2.close();
+			rs2.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

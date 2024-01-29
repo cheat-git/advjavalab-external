@@ -1,0 +1,39 @@
+5B)
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.Period;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/Voting")
+public class Voting extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out=response.getWriter();
+		try {
+			String fname=request.getParameter("fname");
+			String lname=request.getParameter("lname");
+			String email=request.getParameter("email");
+			String dob=request.getParameter("dob");
+			
+			LocalDate birth_date=LocalDate.parse(dob);
+			LocalDate c_date=LocalDate.now();
+			int age=Period.between(birth_date,c_date).getYears();
+			
+			if(age>=18) out.println("<h2> "+fname+" "+lname+" is eligible to vote.</h2>");
+			else out.println("<h2> Not eligible to vote.<h2>");
+			out.println("<p>Email: "+email+"</p>");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,53 @@
+8A)
+import java.sql.*;
+import java.util.*;
+public class Student {
+	public static void main(String[] args) {
+		String url="jdbc:mysql://localhost:3306/qn8";
+		String user="root";
+		String pass="";
+		Scanner in=new Scanner(System.in);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn=DriverManager.getConnection(url,user,pass);
+			String s1="insert into stud(name,usn,age,grade) values (?,?,?,?)";
+			PreparedStatement ps1=conn.prepareStatement(s1);
+			System.out.println("\nEnter details:");
+			String name=in.nextLine();
+			String usn=in.nextLine();
+			int age=in.nextInt();
+			String grade=in.next();
+			ps1.setString(1,name);
+			ps1.setString(2,usn);
+			ps1.setInt(3, age);
+			ps1.setString(4, grade);
+			if (ps1.executeUpdate()>0) System.out.println("\nInserted successfulyy!");
+			else System.out.println("\nNot inserted");
+			ps1.close();
+			
+			String s2="select * from stud";
+			PreparedStatement ps2=conn.prepareStatement(s2);
+			ResultSet rs2=ps2.executeQuery();
+			System.out.println("\nDisplay Details");
+			while (rs2.next()) {
+				String name1=rs2.getString("name");
+				String usn1=rs2.getString("usn");
+				String age1=rs2.getString("age");
+				String grade1=rs2.getString("grade");
+				System.out.println("\nName: "+name1+"\nUsn: "+usn1+"\nAge: "+age1+"\nGrade: "+grade1);
+			}
+			ps2.close();
+			rs2.close();
+			in.close();
+			
+			String s3="update stud set grade='S' where name='Ram' and grade = 'A';";
+			PreparedStatement ps3=conn.prepareStatement(s3);
+			if (ps3.executeUpdate()>0) System.out.println("\nUpdated!");
+			else System.out.println("\nNot Updated.");
+			ps3.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

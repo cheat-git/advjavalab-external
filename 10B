@@ -1,0 +1,38 @@
+10B)<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Movie Ticket Price</title>
+</head>
+<body>
+	<form action ="" method = "post">
+	User Name:<input type = "text" name = "username" required><br>
+	Age: <input type = "text" name = "age" required><br>
+	<input type = "submit" value = "Check Now"> 
+	</form>
+	
+	<%
+
+	if(request.getMethod().equalsIgnoreCase("post"))
+	{
+		String name = request.getParameter("username");
+		int age = Integer.parseInt(request.getParameter("age"));
+		
+		int moviePrice = 0;
+		
+		if(age > 62)
+			moviePrice = 50;
+		else if(age < 10)
+			moviePrice = 30;
+		else
+			moviePrice = 80;	
+		out.println("<p><h2>The cost for the Username:"+name+"\nCost:"+moviePrice+"</h2></p>");	
+		
+	}
+	
+	%>
+
+</body>
+</html>

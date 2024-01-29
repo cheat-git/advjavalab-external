@@ -1,0 +1,54 @@
+2A)import java.sql.*;
+
+public class EmployeeInsertion {
+	
+	public static void main(String[] args)
+	{
+		
+		String jdbcUrl = "jdbc:mysql://localhost:3306/FinalExam";
+		String name = "root";
+		String password = "";
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(jdbcUrl,name,password);
+			
+			String sqlQuery = "INSERT INTO EmpIns(id,name,yr,hn,num) VALUES (?,?,?,?,?)";
+			PreparedStatement ps = conn.prepareStatement(sqlQuery);
+			ps.setInt(1, 101);
+			ps.setString(2, "New Dept");
+			ps.setInt(3, 2023);
+			ps.setString(4, "New Head");
+			ps.setInt(5, 10);
+			
+			int rows = ps.executeUpdate();
+			System.out.println(rows + " dept(s) inserted");
+			
+			
+			String sqlQuery1 = "SELECT * from EmpIns";
+			PreparedStatement ps1 = conn.prepareStatement(sqlQuery1);
+			ResultSet rs = ps1.executeQuery();
+			
+			while(rs.next())
+			{
+				int id = rs.getInt("id");
+				String rname = rs.getString("name");
+				int yr = rs.getInt("yr");
+				String headName = rs.getString("hn");
+				int no = rs.getInt("num");
+				
+				System.out.println("Department ID: " + id + ", Name: " + rname +
+                        ", Year Established: " + yr + ", Head Name: " + headName +
+                        ", No of Employees: " + no);		
+			}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+}

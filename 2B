@@ -1,0 +1,55 @@
+2B)<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.Set, java.util.HashSet" %>
+
+<html>
+<head>
+    <title>Number Analysis</title>
+</head>
+<body>
+    <h2>Number Analysis</h2>
+
+    <form action="" method="post">
+        Enter 11 numbers separated by commas: <input type="text" name="numbers" required>
+        <input type="submit" value="Submit">
+    </form>
+
+    <%
+        if (request.getMethod().equals("POST")) {
+            String numbersStr = request.getParameter("numbers");
+            String[] numbersArray = numbersStr.split(",");
+            int[] numbers = new int[numbersArray.length];
+
+            for (int i = 0; i < numbersArray.length; i++) {
+                numbers[i] = Integer.parseInt(numbersArray[i].trim());
+            }
+
+            int sum = 0;
+            for (int num : numbers) {
+                sum += num;
+            }
+            double average = (double) sum / numbers.length;
+
+            int countBelowAverage = 0;
+            Set<Integer> uniqueNumbers = new HashSet<>();
+            Set<Integer> duplicates = new HashSet<>();
+
+            for (int num : numbers) {
+                if (num < average) {
+                    countBelowAverage++;
+                }
+                if (!uniqueNumbers.add(num)) {
+                    duplicates.add(num);
+                }
+            }
+    %>
+
+    <h3>Results:</h3>
+    <p>Average: <%= average %></p>
+    <p>Numbers below average: <%= countBelowAverage %></p>
+    <p>Duplicate numbers: <%= duplicates %></p>
+
+    <%
+        }
+    %>
+</body>
+</html>

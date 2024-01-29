@@ -1,0 +1,38 @@
+4A)import java.sql.*;
+public class Country {
+	
+	public static void main(String[]args)
+	{
+		String username = "root";
+		String password = "";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/FinalExam";
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(jdbcUrl,username,password);
+			
+			String sqlQuery = "SELECT * FROM country order by population;";
+			PreparedStatement ps = conn.prepareStatement(sqlQuery);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				String code = rs.getString("code");
+				String capital = rs.getString("capital");
+				String continent = rs.getString("continent");
+				int population = rs.getInt("population");
+				System.out.println("Code:"+code+"\n");
+				System.out.println("Capital:"+capital+"\n");
+				System.out.println("Continent:"+continent+"\n");
+				System.out.println("Population:"+population+"\n");
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

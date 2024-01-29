@@ -1,0 +1,55 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/CookieServlet")
+public class CookieServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        Cookie[] cookies = request.getCookies();
+    
+        out.println("<html><head><title>Cookie Example</title></head><body>");
+
+        // Display existing cookies
+        if (cookies != null) {
+            out.println("<h2>Existing Cookies:</h2>");
+            for (Cookie cookie : cookies) {
+                out.println("<p>" + cookie.getName() + ": " + cookie.getValue() + "</p>");
+            }
+        }
+
+        // Create new cookies
+        Cookie cookie1 = new Cookie("Cookie1", "Value1");
+        Cookie cookie2 = new Cookie("Cookie2", "Value2");
+        Cookie cookie3 = new Cookie("Cookie3", "Value3");
+        Cookie cookie4 = new Cookie("Cookie4", "Value4");
+
+        // Set expiry for cookie1 and cookie2 to 1 minute
+        int oneMinute = 60; // 60 seconds in 1 minute
+        cookie1.setMaxAge(oneMinute);
+        cookie2.setMaxAge(oneMinute);
+
+        // Add cookies to the response
+        response.addCookie(cookie1);
+        response.addCookie(cookie2);
+        response.addCookie(cookie3);
+        response.addCookie(cookie4);
+
+        out.println("<h2>New Cookies Created:</h2>");
+        out.println("<p>Cookie1 and Cookie2 have an expiry of 1 minute.</p>");
+        out.println("<p>Cookie3 and Cookie4 are session cookies (expire when the browser is closed).</p>");
+
+        out.println("</body></html>");
+    }
+}

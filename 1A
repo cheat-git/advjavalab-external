@@ -1,0 +1,57 @@
+1A ) import java.sql.*;
+
+
+public class EmployeeDBOperations {
+	
+	public static void main(String[] args)
+	{
+		String jdbcUrl = "jdbc:mysql://localhost:3306/FinalExam";
+		String username = "root";
+		String password = "";
+		try {
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			Connection conn = DriverManager.getConnection(jdbcUrl,username,password);
+			
+			System.out.println("Details of all Employees");
+			
+			String sqlQuery = "SELECT * from 1A";
+			PreparedStatement ps = conn.prepareStatement(sqlQuery);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				int id = rs.getInt("ID");
+				String fName = rs.getString("Fname");
+				String lName = rs.getString("Lname");
+				String project =rs.getString("Project");
+				int salary = rs.getInt("Salary");
+				System.out.println("ID: " + id + ", FName: " + fName + ", LName: " + lName + ", Project: " + project + ", Salary: " + salary);
+			}
+			rs.close();
+			ps.close();
+			System.out.println("Details of all Employees WHERE Project = 'Web Development'");
+			
+			String sqlQuery1 = "SELECT * from 1A WHERE Project = 'Web Development';";
+			PreparedStatement ps1 = conn.prepareStatement(sqlQuery1);
+			ResultSet rs1 = ps1.executeQuery();
+			
+			while(rs1.next())
+			{
+				int id1 = rs1.getInt("ID");
+				String fName1 = rs1.getString("Fname");
+				String lName1 = rs1.getString("Lname");
+				String project1 =rs1.getString("Project");
+				int salary1 = rs1.getInt("Salary");
+				System.out.println("ID: " + id1 + ", FName: " + fName1 + ", LName: " + lName1 + ", Project: " + project1 + ", Salary: " + salary1);
+			}
+			rs1.close();
+			ps1.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

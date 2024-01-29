@@ -1,0 +1,78 @@
+3B)
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/Voting")
+public class Voting extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		
+		try {
+			String username = request.getParameter("username");
+			String gender = request.getParameter("gender");
+			int age = Integer.parseInt(request.getParameter("age"));
+			
+			if(age >= 18)
+			{
+				out.println("<html><head></head><body>");
+				out.println("<p>Username:"+username+"</p>");
+				out.println("<p>Gender:"+gender+"</p>");
+				out.println("<p>Can Vote</h2></p>");
+				out.println("</body></html>");
+			}
+			else
+			{
+				out.println("<html><head></head><body>");
+				out.println("<p><h2>Cannot Vote</h2></p>");
+				out.println("</body></html>");
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Voting Check</title>
+</head>
+<body>
+
+	<h2>Enter the following Details</h2>
+	<form action = "Voting" method = "POST">
+	<label for="username">User Name:</label>
+	<input type = "text" id = "username" name= "username" required><br>
+	
+	
+	<label for="gender">Gender:</label>
+	<input type = "text" id = "gender" name= "gender" required><br>
+	
+	
+	<label for="age">Age</label>
+	<input type = "text" id = "age" name= "age" required><br>
+	
+	
+
+	<input type = "submit" value= "Check Eligbility">
+	</form>
+
+
+
+</body>
+</html>

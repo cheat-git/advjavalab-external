@@ -1,0 +1,35 @@
+6A)import java.sql.*;
+import java.util.Scanner;
+public class Professor {
+	
+	public static void main(String[]args)
+	{
+		String username = "root";
+		String password = "";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/FinalExam";
+		Scanner in = new Scanner(System.in);
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(jdbcUrl,username,password);
+			
+			String sqlQuery = "UPDATE 6A SET desig = 'Assoc Prof' WHERE desig = 'Asst Prof' and ID = ?";
+			PreparedStatement ps = conn.prepareStatement(sqlQuery);
+			System.out.println("Enter the ID of the employee u wanna update:");
+			String id = in.nextLine();
+			ps.setString(1,id);
+			if(ps.executeUpdate() > 0)
+			{
+				System.out.println("Updated and added");
+			}
+			else
+			{
+				System.out.println("Not Updated Could not update");
+			}
+			ps.close();
+			conn.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

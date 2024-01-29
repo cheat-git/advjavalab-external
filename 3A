@@ -1,0 +1,56 @@
+3A)import java.sql.*;
+public class Moviesss {
+	
+	public static void main(String[]args)
+	{
+		String username = "root";
+		String password = "";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/FinalExam";
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(jdbcUrl,username,password);
+			
+			String query1 = "SELECT * from MOVIES;";
+			PreparedStatement ps = conn.prepareStatement(query1);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				String id = rs.getString("id");
+				String name =rs.getString("name");
+				String genre = rs.getString("genre");
+				int rating = rs.getInt("rating");
+				int yr = rs.getInt("yr");
+				System.out.println("Id :" + id + " name : " + name + " genre : " + genre + " rating : " + rating + "year : " + yr);
+			}
+			rs.close();
+			ps.close();
+			
+			String query2 = "SELECT * from MOVIES limit 1 offset 4;";
+			PreparedStatement ps2 = conn.prepareStatement(query2,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs2 = ps2.executeQuery();
+			
+			if(rs2.next())
+			{
+				String id1 = rs2.getString("id");
+				String name1 =rs2.getString("name");
+				String genre1 = rs2.getString("genre");
+				int rating1 = rs2.getInt("rating");
+				int yr1 = rs2.getInt("yr");
+				System.out.println("Id :" + id1 + " name : " + name1 + " genre : " + genre1 + " rating : " + rating1 + "year : " + yr1);
+			}else
+			{
+				System.out.println("Not found");
+			}
+			rs2.close();
+			ps2.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	
+}

@@ -1,0 +1,49 @@
+10A)
+import java.sql.*;
+import java.util.Scanner;
+public class Student {
+	public static void main(String[] args) {
+		String url="jdbc:mysql://localhost:3306/qn10";
+		String user="root";
+		String pass="";
+		Scanner in=new Scanner(System.in);
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn=DriverManager.getConnection(url,user,pass);
+			
+			String s="insert into student(name,usn,branch,entry) values (?,?,?,?)";
+			PreparedStatement ps=conn.prepareStatement(s);
+			System.out.println("\nEnter details:");
+			String name=in.nextLine();
+			String usn=in.nextLine();
+			String branch=in.nextLine();
+			String entry=in.nextLine();
+			ps.setString(1,name);
+			ps.setString(2,usn);
+			ps.setString(3, branch);
+			ps.setString(4, entry);
+			if (ps.executeUpdate()>0) System.out.println("\nInserted successfulyy!");
+			else System.out.println("\nNot inserted");
+			ps.close();
+			
+			String s1="select * from student where entry='CET' and branch='CSE'";
+			PreparedStatement ps1=conn.prepareStatement(s1);
+			ResultSet rs1=ps1.executeQuery();
+			System.out.println("Students with CET in CSE branch: ");
+			while (rs1.next()) {
+				String name1=rs1.getString("name");
+				String usn1=rs1.getString("usn");
+				String branch1=rs1.getString("branch");
+				String entry1=rs1.getString("entry");
+				System.out.println("\nName: "+name1+"\nUSN: "+usn1+"\nBranch: "+branch1+"\nExam:"+entry1);
+			}
+			rs1.close();
+			ps1.close();
+			conn.close();
+			in.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
